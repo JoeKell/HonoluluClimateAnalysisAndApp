@@ -66,8 +66,14 @@ def welcome():
 
 
 @app.route("/api/v1.0/precipitation")
+        # "On this page you will find a JSON representation of a dictionary "
+        # "of dates and precipitation from the Waihee station in Hawaii.<br/><br/>"
 def prcp():
-   return "WIP"
+    precip = engine.execute("SELECT date, prcp FROM measurement WHERE station = 'USC00519281' ORDER BY date").fetchall()
+    pre_dict={}
+    for x in precip:
+        pre_dict[x[0]]=x[1]
+    return jsonify(pre_dict)
 
 
 @app.route("/api/v1.0/stations")
