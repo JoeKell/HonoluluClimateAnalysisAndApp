@@ -36,12 +36,21 @@ app = Flask(__name__)
 def welcome():
     #List all available api routes.
     return (
-        "Available Routes:<br/>"
+        "Available Routes:<br/><br/>"
+
         "/api/v1.0/precipitation<br/>"
+        "On this page you will find a JSON representation of a dictionary of dates and precipitation from the Waihee station in Hawaii.<br/><br/>"
+
         "/api/v1.0/stations<br/>"
+        "On this page you will find a JSON representation of a list of the Hawaii stations.<br/><br/>"
+
         "/api/v1.0/tobs<br/>"
-        "/api/v1.0/<start><br/>"
-        "/api/v1.0/<start>/<end>."
+
+
+        "/api/v1.0/enter_start_date<br/>"
+
+
+        "/api/v1.0/enter_start_date/enter_end_date."
 
 
     )
@@ -66,8 +75,12 @@ def date(start):
 
 @app.route("/api/v1.0/<start>/<end>")
 def date_range(start, end):
-    if end<start:
-        return("Double check the date range")
+    if end<=start:
+        return (
+        f"{start}<br/>"
+        "Double check the date range<br/>"
+        
+        )
     return "WIP"
 
 
