@@ -39,19 +39,28 @@ def welcome():
         "Available Routes:<br/><br/>"
 
         "/api/v1.0/precipitation<br/>"
-        "On this page you will find a JSON representation of a dictionary of dates and precipitation from the Waihee station in Hawaii.<br/><br/>"
+        "On this page you will find a JSON representation of a dictionary "
+        "of dates and precipitation from the Waihee station in Hawaii.<br/><br/>"
 
         "/api/v1.0/stations<br/>"
         "On this page you will find a JSON representation of a list of the Hawaii stations.<br/><br/>"
 
         "/api/v1.0/tobs<br/>"
-
+        "On this page you will find a JSON representation of a dictionary of"
+        " dates and temperature from the last year of the most active station.<br/><br/>"
 
         "/api/v1.0/enter_start_date<br/>"
+        "On this page you will find a JSON representation of a dictionary of the lowest temperature,"
+        " average temperature, and highest temperature from the last year of the most active station. "
+        "Enter the date in the format YYYY-MM-DD and use a start date between "
+        "2016-08-18 and 2017-08-18. <br/><br/>"
 
-
-        "/api/v1.0/enter_start_date/enter_end_date."
-
+        "/api/v1.0/enter_start_date/enter_end_date.<br/>"
+        "On this page you will find a JSON representation of a dictionary of the lowest temperature,"
+        " average temperature, and highest temperature from the last year of the most active station. "
+        "Enter the dates in the format YYYY-MM-DD, use a start date between "
+        "2016-08-18 and 2017-08-17, and use an end date that is greater than the start date "
+        "and less than 2017-08-18"
 
     )
 
