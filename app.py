@@ -77,8 +77,13 @@ def prcp():
 
 
 @app.route("/api/v1.0/stations")
+        # "On this page you will find a JSON representation of a list of the Hawaii stations.<br/><br/>"
 def stations():
-    return "WIP"
+    stations_query = engine.execute("SELECT station, name, latitude, longitude, elevation FROM station").fetchall()
+    stations_dict={}
+    for x in stations_query:
+        stations_dict[x[0]]={'name':x[1],'latitude':x[2], 'longitude':x[3], 'elevation':x[4]}
+    return jsonify(stations_dict)
 
 @app.route("/api/v1.0/tobs")
 def temps():
