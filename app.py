@@ -97,10 +97,36 @@ def temps():
     return jsonify(temp_dict)
 
 @app.route("/api/v1.0/<start>")
+        # "On this page you will find a JSON representation of a dictionary of the lowest temperature,"
+        # " average temperature, and highest temperature from the last year of the most active station. "
+        # "Enter the date in the format YYYY-MM-DD and use a start date between "
+        # "2016-08-18 and 2017-08-18. <br/><br/>"
 def date(start):
-    return "WIP"
+    sstart=start.split('-')
+#There are many other situations that could be accounted for here as well
+    if start <'2016-08-18' or start >'2017-08-18' or len(sstart[0])!=4 or len(sstart[1])!=2 or len(sstart[2])!=2:
+        return \
+        (
+            f"{start} is not a valid date. "
+            "Enter the date in the format YYYY-MM-DD and use a start date between "
+            "2016-08-18 and 2017-08-18."
+        )
+
+    stats = engine.execute(f"SELECT min(tobs), avg(tobs), max(tobs) FROM measurement WHERE station = 'USC00519281' and date >='{start}'").fetchall()[0]
+    stat_dict=\
+    {
+        'low temp':stats[0],
+        'avg temp':round(stats[1],2),
+        'high temp':stats[2]
+    }
+    return jsonify(stat_dict)
 
 @app.route("/api/v1.0/<start>/<end>")
+        # "On this page you will find a JSON representation of a dictionary of the lowest temperature,"
+        # " average temperature, and highest temperature from the last year of the most active station. "
+        # "Enter the dates in the format YYYY-MM-DD, use a start date between "
+        # "2016-08-18 and 2017-08-17, and use an end date that is greater than the start date "
+        # "and less than 2017-08-18"
 def date_range(start, end):
     if end<=start:
         return (
