@@ -36,7 +36,8 @@ app = Flask(__name__)
 def welcome():
     #List all available api routes.
     return (
-        "Available Routes:<br/><br/>"
+        "<h1>Available Routes:</h1>"
+        "<br/>"
 
         "/api/v1.0/precipitation<br/>"
         "On this page you will find a JSON representation of a dictionary "
@@ -86,8 +87,14 @@ def stations():
     return jsonify(stations_dict)
 
 @app.route("/api/v1.0/tobs")
+        # "On this page you will find a JSON representation of a dictionary of"
+        # " dates and temperature from the last year of the most active station.<br/><br/>"
 def temps():
-    return "WIP"
+    temp = engine.execute("SELECT date, tobs FROM measurement WHERE station = 'USC00519281' ORDER BY date").fetchall()
+    temp_dict={}
+    for x in temp:
+        temp_dict[x[0]]=x[1]
+    return jsonify(temp_dict)
 
 @app.route("/api/v1.0/<start>")
 def date(start):
