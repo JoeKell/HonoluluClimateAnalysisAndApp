@@ -60,7 +60,7 @@ def welcome():
         "On this page you will find a JSON representation of a dictionary of the lowest temperature,"
         " average temperature, and highest temperature from the last year of the most active station. "
         "Enter the dates in the format YYYY-MM-DD, use a start date between "
-        "2016-08-18 and 2017-08-17, and use an end date that is greater than the start date "
+        "2016-08-18 and 2017-08-17, and use an end date that is greater than or equal to the start date "
         "and less than 2017-08-18"
 
     )
@@ -128,13 +128,26 @@ def date(start):
         # "2016-08-18 and 2017-08-17, and use an end date that is greater than the start date "
         # "and less than 2017-08-18"
 def date_range(start, end):
-    if end<=start:
-        return (
-        f"{start}<br/>"
-        "Double check the date range<br/>"
-        
+    sstart=start.split('-')
+    s_end=end.split('-')
+#There are many other situations that could be accounted for here as well
+    if end < start or end > '2017-08-18' or start <'2016-08-18' or start >'2017-08-17' or len(sstart[0])!=4 or len(sstart[1])!=2 or len(sstart[2])!=2 or len(s_end[0])!=4 or len(s_end[1])!=2 or len(s_end[2])!=2:
+        return \
+        (
+            f"{start} or {end} is not a valid date. "
+            "Enter the dates in the format YYYY-MM-DD, use a start date between "
+            "2016-08-18 and 2017-08-17, and use an end date that is greater than or equal to the start date "
+            "and less than 2017-08-18"
         )
-    return "WIP"
+
+    stats = engine.execute(f"SELECT min(tobs), avg(tobs), max(tobs) FROM measurement WHERE station = 'USC00519281' and date >='{start}' and date <= '{end}'").fetchall()[0]
+    stat_dict=\
+    {
+        'low temp':stats[0],
+        'avg temp':round(stats[1],2),
+        'high temp':stats[2]
+    }
+    return jsonify(stat_dict)
 
 
 
